@@ -1,0 +1,19 @@
+packages:
+  "framer-motion": "For stunning page transitions, hero animations, and interactive component micro-interactions"
+  "date-fns": "For formatting dates cleanly across the UI"
+  "lucide-react": "For beautiful consistent iconography"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility to resolve Tailwind class conflicts"
+
+images:
+  - path: "artifacts/jivan-daan/public/images/hero-bg.png"
+    description: "Deep red and crimson abstract gradient mesh, glassmorphism style, smooth organic curves, premium dark modern background"
+    aspect_ratio: "16:9"
+  - path: "artifacts/jivan-daan/public/images/logo-icon.png"
+    description: "A minimalist 3D rendering of a glossy red blood drop on a completely transparent background, premium clean icon design"
+    aspect_ratio: "1:1"
+
+notes:
+  - Auth is mocked via localStorage since Firebase is not available.
+  - Using generated API hooks from @workspace/api-client-react.
+  - Chatbot is a localized rule-based React component with no external API dependency.

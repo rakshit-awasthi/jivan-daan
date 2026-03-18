@@ -1,0 +1,276 @@
+Build a premium, modern, fully functional blood donation platform named "JIVAN DAAN".
+
+This app should feel like a real startup product with clean UI, smooth animations, and real-world usability.
+
+---------------------------------------
+🧱 TECH STACK
+---------------------------------------
+
+- React.js
+- Tailwind CSS
+- Framer Motion (animations)
+- Firebase (Authentication + Firestore + FCM)
+- Cloudinary (image upload)
+
+---------------------------------------
+👥 TEAM BRANDING & ABOUT SECTION
+---------------------------------------
+
+Team Name:
+"INCLUDER TECHNOLOGIES"
+
+Team Members:
+- Rakshit Awasthi
+- Ajay Singh Chauhan
+- Shubham Yadav
+
+Create an "About Us" section with the following content:
+
+"JIVAN DAAN is a mission-driven platform built by INCLUDER TECHNOLOGIES, a passionate team of developers dedicated to solving real-world problems using technology. Our goal is to create a reliable and fast system that connects blood donors with those in urgent need, saving lives through smart digital solutions.
+
+Our team — Rakshit Awasthi, Ajay Singh Chauhan, and Shubham Yadav — believes in using innovation for social impact. This platform is designed to make blood donation easier, faster, and more accessible for everyone."
+
+Display this in:
+- About section
+- Footer ("Powered by INCLUDER TECHNOLOGIES")
+
+---------------------------------------
+🔐 AUTH SYSTEM
+---------------------------------------
+
+- Single page login + register
+- Google login (Firebase Auth)
+- Manual form:
+  - Name
+  - Role (Donor / Receiver / Hospital)
+  - Blood Group
+  - Location
+  - If hospital → Hospital Name + Contact
+
+- After login → redirect to Home
+- Maintain session using Firebase Auth
+
+---------------------------------------
+🏥 HOSPITAL SYSTEM
+---------------------------------------
+
+- Register as Hospital option
+- Hospital can:
+  - Create blood requests
+  - View nearby donors
+  - Connect with donors
+
+- Hospital Dashboard:
+  - List of active requests
+  - Button: Create Request
+
+---------------------------------------
+🏠 HOME PAGE (PREMIUM UI)
+---------------------------------------
+
+Include:
+
+1. Navbar:
+- Logo: JIVAN DAAN
+- Links: Home, Donate, Request, Find Donor
+- Notification bell 🔔 (clickable dropdown)
+- CTA button
+- Glass effect + sticky
+
+2. Hero Section:
+- Gradient background
+- Heading:
+  "Save Lives. Become a Hero."
+- Buttons:
+  Donate Now / Request Blood
+- Smooth animations
+
+3. Live Stats:
+- Animated counters
+
+4. Emergency Banner:
+- Dynamic Firestore data
+- Pulse animation
+
+5. Features Section:
+- Cards with hover effects
+
+6. Smart Search:
+- Input: PIN code
+- Fetch location
+- Show nearby donors & hospitals
+
+7. CTA Section:
+- "Be a Hero. Save Lives."
+
+8. Testimonials:
+- User reviews
+
+9. Footer:
+- Contact + social links
+- "Powered by INCLUDER TECHNOLOGIES"
+
+---------------------------------------
+🔍 FIND DONOR PAGE
+---------------------------------------
+
+- Responsive card layout
+- Each card:
+  - Name
+  - Blood group
+  - Location
+  - Image
+
+- Click → open profile page
+- Hover animation
+
+---------------------------------------
+👤 PROFILE SYSTEM
+---------------------------------------
+
+- Profile page:
+  - Name
+  - Role
+  - Blood group
+  - Location
+  - Image
+
+- Edit Profile:
+  - Update blood group
+  - Update details
+  - Upload image
+
+---------------------------------------
+🔔 SMART NOTIFICATION SYSTEM
+---------------------------------------
+
+Use Firebase Cloud Messaging:
+
+- When a request is created:
+  Send notification ONLY to:
+    - Matching blood group users
+    - Nearby users
+
+- Include:
+  - Title
+  - Message
+  - Sound 🔔
+
+- Click → open app → go to request page
+
+---------------------------------------
+🤖 HEALTH CHATBOT (LOCAL)
+---------------------------------------
+
+Add floating chatbot (bottom-right):
+
+UI:
+- Chat icon 💬
+- Click → open chat window
+- Smooth animation
+
+Features:
+- User can ask health questions
+- Bot responds instantly
+
+Example queries:
+- "Can I donate blood?"
+- "Who can donate blood?"
+- "Benefits of blood donation?"
+
+Add safety message:
+"⚠️ This is not medical advice. Please consult a doctor."
+
+---------------------------------------
+☁️ IMAGE UPLOAD
+---------------------------------------
+
+- Use Cloudinary
+- Upload profile image
+- Store URL in Firestore
+
+---------------------------------------
+🔥 FIRESTORE STRUCTURE
+---------------------------------------
+
+users/
+  id:
+    name
+    role
+    bloodGroup
+    location
+    image
+    hospitalName
+
+requests/
+  id:
+    bloodGroup
+    location
+    urgency
+    createdAt
+    createdBy
+
+hospitals/
+  id:
+    name
+    location
+    contact
+
+---------------------------------------
+🧠 ROUTING
+---------------------------------------
+
+- Not logged in → Auth page
+- Logged in:
+  - If hospital → Hospital Dashboard
+  - Else → Home page
+
+---------------------------------------
+🎨 DESIGN SYSTEM
+---------------------------------------
+
+- Red theme (#dc2626)
+- Glassmorphism
+- Rounded UI
+- Smooth animations
+- Mobile-first
+
+---------------------------------------
+⚡ PERFORMANCE
+---------------------------------------
+
+- Lazy loading
+- Smooth rendering
+
+---------------------------------------
+📁 FILE STRUCTURE
+---------------------------------------
+
+src/
+  pages/
+    Auth.js
+    Home.js
+    Donate.js
+    Request.js
+    FindDonor.js
+    Profile.js
+    EditProfile.js
+    HospitalDashboard.js
+  components/
+    Navbar.js
+    Card.js
+    Chatbot.js
+  services/
+    firebase.js
+    cloudinary.js
+  App.js
+
+---------------------------------------
+OUTPUT REQUIREMENTS
+---------------------------------------
+
+- Full working React app
+- Firebase fully integrated
+- Premium UI
+- Responsive design
+- No errors
