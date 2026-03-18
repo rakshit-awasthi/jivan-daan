@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/lib/auth";
-import { Droplet, User as UserIcon, LogOut, Menu, X, Bell } from "lucide-react";
+import { useTheme } from "@/lib/theme";
+import { Droplet, User as UserIcon, LogOut, Menu, X, Bell, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,13 +9,12 @@ import { motion, AnimatePresence } from "framer-motion";
 export function Navbar() {
   const [location] = useLocation();
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -27,7 +27,7 @@ export function Navbar() {
   ];
 
   if (user?.role === "hospital") {
-    navLinks.push({ name: "Hospital Dashboard", href: "/hospital-dashboard" });
+    navLinks.push({ name: "Dashboard", href: "/hospital-dashboard" });
   }
 
   return (
@@ -66,26 +66,59 @@ export function Navbar() {
           </nav>
 
           {/* Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
+            {/* Dark mode toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="rounded-full text-muted-foreground hover:text-foreground"
+              title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {theme === "dark" ? (
+                  <motion.div
+                    key="sun"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Sun className="w-5 h-5" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="moon"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Moon className="w-5 h-5" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Button>
+
             {user ? (
               <>
                 <Button variant="ghost" size="icon" className="rounded-full relative text-muted-foreground hover:text-foreground">
                   <Bell className="w-5 h-5" />
                   <span className="absolute top-1.5 right-2 w-2 h-2 bg-primary rounded-full border-2 border-background"></span>
                 </Button>
-                
+
                 <div className="h-6 w-px bg-border mx-1"></div>
-                
+
                 <Link href="/profile">
                   <Button variant="ghost" className="gap-2 font-medium">
-                    <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary overflow-hidden">
                       {user.image ? (
-                         <img src={user.image} alt={user.name} className="w-full h-full rounded-full object-cover" />
+                        <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
                       ) : (
                         <UserIcon className="w-4 h-4" />
                       )}
                     </div>
-                    {user.name.split(' ')[0]}
+                    {user.name.split(" ")[0]}
                   </Button>
                 </Link>
                 <Button variant="outline" size="icon" onClick={logout} title="Log out">
@@ -101,8 +134,16 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile: theme toggle + hamburger */}
+          <div className="md:hidden flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="rounded-full text-muted-foreground"
+            >
+              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </Button>
             <Button
               variant="ghost"
               size="icon"
@@ -130,8 +171,8 @@ export function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={`block px-3 py-3 rounded-xl text-base font-medium transition-colors ${
-                    location === link.href 
-                      ? "bg-primary/10 text-primary" 
+                    location === link.href
+                      ? "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
@@ -139,7 +180,7 @@ export function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              
+
               <div className="mt-4 pt-4 border-t border-border">
                 {user ? (
                   <div className="space-y-2">
@@ -148,7 +189,11 @@ export function Navbar() {
                         <UserIcon className="w-4 h-4" /> Profile
                       </Button>
                     </Link>
-                    <Button variant="destructive" className="w-full justify-start gap-3" onClick={() => { logout(); setMobileMenuOpen(false); }}>
+                    <Button
+                      variant="destructive"
+                      className="w-full justify-start gap-3"
+                      onClick={() => { logout(); setMobileMenuOpen(false); }}
+                    >
                       <LogOut className="w-4 h-4" /> Log out
                     </Button>
                   </div>
