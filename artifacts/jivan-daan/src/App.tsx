@@ -2,27 +2,60 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/lib/auth";
+
+// Components
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { Chatbot } from "@/components/Chatbot";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+
+// Pages
 import NotFound from "@/pages/not-found";
+import Home from "@/pages/Home";
+import Auth from "@/pages/Auth";
+import FindDonor from "@/pages/FindDonor";
+import RequestBlood from "@/pages/RequestBlood";
+import Donate from "@/pages/Donate";
+import Profile from "@/pages/Profile";
+import EditProfile from "@/pages/EditProfile";
+import HospitalDashboard from "@/pages/HospitalDashboard";
 
 const queryClient = new QueryClient();
 
-function Home() {
-  return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Replit Agent is building...</h1>
-        <p className="mt-2 text-sm text-gray-600">Your app will appear here once it's ready.</p>
-      </div>
-    </div>
-  );
-}
-
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route component={NotFound} />
-    </Switch>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-grow">
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/auth" component={Auth} />
+          <Route path="/find-donor" component={FindDonor} />
+          <Route path="/request" component={RequestBlood} />
+          
+          <Route path="/donate">
+            <ProtectedRoute><Donate /></ProtectedRoute>
+          </Route>
+          
+          <Route path="/profile">
+            <ProtectedRoute><Profile /></ProtectedRoute>
+          </Route>
+          
+          <Route path="/edit-profile">
+            <ProtectedRoute><EditProfile /></ProtectedRoute>
+          </Route>
+          
+          <Route path="/hospital-dashboard">
+            <ProtectedRoute requiredRole="hospital"><HospitalDashboard /></ProtectedRoute>
+          </Route>
+
+          <Route component={NotFound} />
+        </Switch>
+      </main>
+      <Footer />
+      <Chatbot />
+    </div>
   );
 }
 
@@ -30,9 +63,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
+        <AuthProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <Router />
+          </WouterRouter>
+        </AuthProvider>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
